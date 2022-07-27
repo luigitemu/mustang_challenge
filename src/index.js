@@ -1,11 +1,5 @@
-const express = require("express");
-const app = express();
+const app = require('./App');
 const port = 3000;
-const {getProfit} = require('./controller/profit');
-
-
-// routes 
-app.get('/', getProfit );
 
 
 app.listen(port, err => {
@@ -15,3 +9,5 @@ app.listen(port, err => {
     }
     console.log(`Listening on port :${port}`);
 });
+
+
