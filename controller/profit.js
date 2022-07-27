@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const dayjs = require('dayjs');
 
-const INVESTMENT = 35_000;  
+const INVESTMENT = 135_000;  
 
 const getProfit = async (req, res)=> {
     let record = [];
@@ -22,6 +22,7 @@ const getProfit = async (req, res)=> {
     const min = Math.min(...record.map(item => item.cena));
     const indexMin = record.findIndex(item => item.cena === min);
     const recordSinceMin = record.slice(indexMin);
+
     const max = Math.max(...recordSinceMin.map(item => item.cena));
     const indexMax = recordSinceMin.findIndex(item => item.cena === max);
     
@@ -30,7 +31,7 @@ const getProfit = async (req, res)=> {
    const responseMax = await axios.get(`http://api.nbp.pl/api/exchangerates/rates/c/usd/${record[indexMax].data}/?format=json`)
     
    // Get the total to invest on local currency
-   const InvestmentInBNP = responseMin.data.rates[0].ask * INVESTMENT;
+   const InvestmentInBNP = (responseMin.data.rates[0].ask).toFixed(2) * INVESTMENT;
     //    Get the min and max price in USD
     const minPriceUSD = (record[indexMin].cena / responseMin.data.rates[0].ask).toFixed(2);
     const maxPriceUSD = (recordSinceMin[indexMax].cena / responseMax.data.rates[0].ask).toFixed(2)
